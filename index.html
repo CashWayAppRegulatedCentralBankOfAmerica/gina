@@ -48,7 +48,7 @@
     }
 
     .info-value {
-      color: #90ee90; /* Light green */
+      color: #005c3c; /* Reverted back to the previous color */
       font-weight: 500;
     }
 
@@ -109,6 +109,12 @@
     .hidden {
       display: none;
     }
+
+    .loading-message {
+      color: #ff8c00;
+      font-size: 18px;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -138,7 +144,7 @@
       </div>
       <div class="button-group">
         <button class="btn back-btn" onclick="goBack()">← Dashboard</button>
-        <button class="btn download-btn" onclick="showSuccessModal()">Download Ticket</button>
+        <button class="btn download-btn" onclick="startDownloading()">Download Ticket</button>
       </div>
     </div>
   </div>
@@ -149,7 +155,7 @@
       <h2>✅ Receipt Downloaded!</h2>
       <p>Your receipt has been successfully downloaded and sent to your email:</p>
       <p><strong style="color: #90ee90;">jackfayama@gmail.com</strong></p>
-      <button class="close-btn" onclick="redirectToFlight()">Close</button>
+      <button class="close-btn" onclick="redirectToDashboard()">Close</button>
     </div>
   </div>
 
@@ -202,13 +208,24 @@
       }, 1000);
     }
 
-    function showSuccessModal() {
-      document.getElementById('flightModal').classList.add('hidden');
-      document.getElementById('successModal').classList.remove('hidden');
+    function startDownloading() {
+      // Show the "Downloading..." message before success modal
+      const loadingMessage = document.createElement('p');
+      loadingMessage.className = 'loading-message';
+      loadingMessage.textContent = 'Downloading...';
+      document.querySelector('.modal').appendChild(loadingMessage);
+
+      setTimeout(() => {
+        // Hide the modal and show the success modal
+        document.getElementById('flightModal').classList.add('hidden');
+        document.getElementById('successModal').classList.remove('hidden');
+        // Remove loading message after 2 seconds
+        loadingMessage.remove();
+      }, 2000);
     }
 
-    function redirectToFlight() {
-      window.location.href = "flight.html";
+    function redirectToDashboard() {
+      window.location.href = "dashboard.html";
     }
   </script>
 
